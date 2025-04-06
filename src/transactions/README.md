@@ -10,7 +10,14 @@ User query -> Supervisor agent -> NER agent -> TX
 message: "отправь 0.01 ETH Ивану Иванову"
 
 response:
-{"to": "Иван Иванов", "value": 0.01}
+{
+  "status": "Build",
+  "transaction": {
+    "to": "Иван Иванов",
+    "value": 0.01
+  },
+  "reasoning": "Мы можем построить транзакцию, так как сообщение содержит значение и имя получателя."
+}
 ```
 
 In Future:
