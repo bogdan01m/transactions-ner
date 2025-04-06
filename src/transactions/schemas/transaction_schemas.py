@@ -1,21 +1,23 @@
 from pydantic import BaseModel
+from typing import Optional
 
-class TransactionModel(BaseModel):
-    to:str
-    value: float
-    gas: int 
-    chainId: str
 
-class BaseAIModel(BaseModel):
-    response: str
-
-class TransactionData(BaseModel):
+class TransactionNER(BaseModel):
     receiver: str
-    eth_value: float
+    value: float
 
-class AgentState(BaseModel):
-    message: str
-    endpoint_url: str
-    intent_response: str | None = None
-    transaction_data: TransactionData | None = None
-    tx: dict | None = None
+
+class SupervisorResponse(BaseModel):
+    decision: str  # "@BuildTransaction" или "@RejectTransaction"
+    reasoning: str
+
+
+class TransactionDict(BaseModel):
+    to: str
+    value: float
+
+
+class TransactionResult(BaseModel):
+    status: str
+    transaction: Optional[TransactionDict] = None
+    reasoning: str

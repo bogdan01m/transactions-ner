@@ -8,8 +8,9 @@ dependencies = [
     "httpx>=0.28.1",
     "ipykernel>=6.29.5",
     "ipywidgets>=8.1.5",
+    "logfire>=3.12.0",
     "pydantic-ai>=0.0.52",
-    "pydantic-ai-slim[openai]>=0.0.52",
+    "pydantic-ai-slim[mistral,openai]>=0.0.52",
     "python-dotenv>=1.1.0",
     "requests>=2.32.3",
 ]

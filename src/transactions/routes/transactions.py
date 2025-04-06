@@ -1,12 +1,14 @@
 from fastapi import APIRouter, HTTPException
-from services.transaction_service import create_eth_transaction
+from services.agent_service import build_transaction_service
+from schemas.transaction_schemas import TransactionResult
 
 router = APIRouter()
 
-@router.get("/create_transaction")
-async def create_transaction(endpoint_url:str,receiver: str, eth_value: float, gas_price: float):
+
+@router.post("/build_transaction")
+async def build_transaction(message: str) -> TransactionResult:
     try:
-        tx = await create_eth_transaction(endpoint_url,receiver, eth_value, gas_price)
-        return {"tx": tx}
+        tx = await build_transaction_service(message=message)
+        return tx
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

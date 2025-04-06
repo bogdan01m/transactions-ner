@@ -1,18 +1,45 @@
 from pydantic_ai import Agent
-from pydantic_ai.models.openai import OpenAIModel
-from pydantic_ai.providers.openai import OpenAIProvider
+from pydantic_ai.models.mistral import MistralModel
+from pydantic_ai.providers.mistral import MistralProvider
+from schemas import TransactionNER, SupervisorResponse, TransactionResult, TransactionDict
+from prompts import SupervisorPrompt, TransactAIModelPrompt
 import os 
 from dotenv import load_dotenv
-
+import logfire
 load_dotenv()
 
-model = OpenAIModel(
-    model_name=os.getenv("DEEPSEEK"),
-    provider=OpenAIProvider(   
-    base_url=os.getenv("LLM_URL"),
-    api_key=os.getenv("DEEPSEEK_API_KEY"),)
-)
+logfire.configure(token=os.getenv("LOGFIRE_TOKEN"))  
+logfire.instrument()  
 
-agent = Agent(model)
-result = agent.run_sync('Привет, а сколько у тебя параметров, сколько языков ты знаешь и что ты за модель?')
-print(result.data)
+class TransactionAgent:
+    def __init__(self):
+
+        self.model = MistralModel(
+            model_name=os.getenv("MISTRAL"),
+            provider=MistralProvider(   
+            # base_url=os.getenv("LLM_URL"),
+            api_key=os.getenv("MISTRAL_API_KEY"),)
+        )
+
+        self.supervisor = Agent(self.model, result_type=SupervisorResponse, system_prompt=SupervisorPrompt, retries=3, instrument=True,)
+        self.ner_agent = Agent(self.model, result_type=TransactionNER, system_prompt=TransactAIModelPrompt, retries=3, instrument=True,)
+
+    def process_message(self, message: str):
+        decision = self.supervisor.run_sync(user_prompt=message).data
+
+        if decision.decision == "@BuildTransaction":
+            ner = self.ner_agent.run_sync(user_prompt=message).data
+            transaction = TransactionDict(to=ner.receiver, value=ner.value)
+            return TransactionResult(status="Build",
+                                     transaction=transaction,
+                                      reasoning= decision.reasoning)
+        
+        else:
+            return TransactionResult(status="Reject",
+                                     reasoning= decision.reasoning)
+
+agent = TransactionAgent()
+msg = "отправь моему другу Ивану Иванову 0001 ETH"
+res = agent.process_message(msg)
+print(res)
+print({"to": res.transaction.to, "value": res.transaction.value})

@@ -1,8 +1,9 @@
 from web3 import Web3
 
 
-
-async def create_eth_transaction(endpoint_url:str, receiver: str, eth_value: float, gas_price: float):
+async def create_eth_transaction(
+    endpoint_url: str, receiver: str, eth_value: float, gas_price: float
+):
     """Создаёт транзакцию и возвращает её структуру"""
     try:
         w3 = Web3(Web3.HTTPProvider(endpoint_uri=endpoint_url))
@@ -16,10 +17,10 @@ async def create_eth_transaction(endpoint_url:str, receiver: str, eth_value: flo
             "value": wei_value,
             "gas": 21000,
             "gasPrice": w3.to_wei(gas_price, "gwei"),
-            "chainId": w3.eth.chain_id
+            "chainId": w3.eth.chain_id,
         }
 
         return tx
-    
+
     except Exception as e:
-        return f"не удалось обработать транзакцию: {e}" 
+        return f"не удалось обработать транзакцию: {e}"
