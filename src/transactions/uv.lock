@@ -1165,6 +1165,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "asyncio" },
     { name = "fastapi" },
+    { name = "pydantic" },
     { name = "python-dotenv" },
     { name = "uvicorn" },
     { name = "web3" },
@@ -1174,6 +1175,7 @@ dependencies = [
 requires-dist = [
     { name = "asyncio", specifier = ">=3.4.3" },
     { name = "fastapi", specifier = ">=0.115.12" },
+    { name = "pydantic", specifier = ">=2.11.1" },
     { name = "python-dotenv", specifier = ">=1.1.0" },
     { name = "uvicorn", specifier = ">=0.34.0" },
     { name = "web3", specifier = ">=7.10.0" },
