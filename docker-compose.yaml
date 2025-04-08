@@ -18,7 +18,9 @@ services:
       - "8000:8000"
     command: uv run uvicorn main:app --host 0.0.0.0 --port 8000 --reload
     env_file:
-      - ./src//transactions/.env
+      - ./src/transactions/.env
+    volumes:
+      - ./src/transactions/.env:/transactions/.env
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/healthcheck"]
