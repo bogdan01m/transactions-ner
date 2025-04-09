@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, Literal
 
 
 class TransactionNER(BaseModel):
@@ -8,7 +8,7 @@ class TransactionNER(BaseModel):
 
 
 class SupervisorResponse(BaseModel):
-    decision: str  # "@BuildTransaction" или "@RejectTransaction"
+    decision: Literal["@BuildTransaction", "@RejectTransaction"]  
     reasoning: str
 
 
