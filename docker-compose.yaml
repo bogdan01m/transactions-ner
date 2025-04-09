@@ -12,7 +12,7 @@ services:
           ignore:
             - .venv/
             - __pycache__/
-        - path: ./src/transactions/**/*.py  
+        - path: ./src/transactions/**/*.py
           action: sync
           target: /transactions
     ports:

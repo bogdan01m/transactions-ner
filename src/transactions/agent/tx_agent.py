@@ -1,33 +1,27 @@
+import logfire
 from pydantic_ai import Agent
 from pydantic_ai.models.mistral import MistralModel
 from pydantic_ai.providers.mistral import MistralProvider
 from schemas.transaction_schemas import (
-    TransactionNER,
     SupervisorResponse,
-    TransactionResult,
     TransactionDict,
+    TransactionNER,
+    TransactionResult,
 )
+
 from agent.prompts import SupervisorPrompt, TransactionNERPrompt
-import os
-from dotenv import load_dotenv
-import logfire
-
-load_dotenv()
-
-logfire.configure(token=os.getenv("LOGFIRE_TOKEN"))
-logfire.instrument()
 
 
 class TransactionAgent:
-    def __init__(self):
-
+    def __init__(self, model: str, llm_token: str, logifre_token: str = None):
         self.model = MistralModel(
-            model_name=os.getenv("MISTRAL"),
+            model_name=model,
             provider=MistralProvider(
-                # base_url=os.getenv("LLM_URL"),
-                api_key=os.getenv("MISTRAL_API_KEY"),
+                api_key=llm_token,
             ),
         )
+        logfire.configure(token=logifre_token)
+        logfire.instrument()
 
         self.supervisor = Agent(
             self.model,
