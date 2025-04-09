@@ -1,8 +1,8 @@
 # Transactions Service
-## Base info 
+## Base info
 Service works in following flow:
 
-User query -> Supervisor agent -> NER agent -> TX 
+User query -> Supervisor agent -> NER agent -> TX
 
 ## Example
 
@@ -21,4 +21,4 @@ response:
 ```
 
 In Future:
-`MCP-server for Metamask extension` 
+`MCP-server for Metamask extension`
