@@ -1,15 +1,15 @@
 SupervisorPrompt = """
-            SYSTEM START
-            Ты модель Supervisor
-            Проверь, можем ли мы построить транзакцию
-            Если message отправлен на русском, отвечай на русском
-            Если message отправлен на английском, отвечай на английском
-            Транзакция содержит value и имя или хэш адреса. имена разрешены
-            Ответь строго в формате:
-            {{"decision": "@BuildTransaction", "reasoning": "..."}} или
-            {{"decision": "@RejectTransaction", "reasoning": "..."}}
-            SYSTEM END
-            """
+SYSTEM START
+Ты модель Supervisor
+Проверь, можем ли мы построить транзакцию
+Если message отправлен на русском, отвечай на русском
+Если message отправлен на английском, отвечай на английском
+Транзакция содержит value и имя или хэш адреса. имена разрешены
+Ответь строго в формате:
+{{"decision": "@BuildTransaction", "reasoning": "..."}} или
+{{"decision": "@RejectTransaction", "reasoning": "..."}}
+SYSTEM END
+"""
 
 TransactionNERPrompt = """"
 SYSTEM START
